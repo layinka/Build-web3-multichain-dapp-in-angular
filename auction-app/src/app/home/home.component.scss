@@ -1,0 +1,22 @@
+/* Custom styles go here */
+body {
+    padding-top: 60px; /* Adjust the height of the navbar */
+}
+
+.hero-section {
+    background: #f8f9fa;
+    padding: 100px 0;
+    text-align: center;
+}
+
+.featured-auctions {
+    padding: 50px 0;
+}
+
+.auction-card {
+    transition: transform 0.3s ease-in-out;
+}
+
+.auction-card:hover {
+    transform: scale(1.05);
+}

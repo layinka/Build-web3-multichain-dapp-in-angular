@@ -1,0 +1,85 @@
+<div class="row">
+    <div *ngIf="!auction || !nftMetadata" class="col d-flex justify-content-center align-items-center w-100 h-100">Loading ...</div>
+
+    <div class="col " *ngIf="auction && nftMetadata">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-left">
+                    <img alt="nft Image" style="width:360px" [src]="nftMetadata.image" class="img-fluid me-2">
+
+                    <dl>
+                        <dt>Seller</dt>
+                        <dd>{{auction.seller}}</dd>
+
+                        <dt>NFT Address</dt>
+                        <dd>{{auction.nft}} (<b>Token Id:</b> {{auction.tokenId}})</dd>
+
+                        <dt>Status</dt>
+                        <dd class="px-2 ">
+                            <div class="d-flex justify-content-start">
+                                <div class="me-2">
+                                    <b>Started:</b>
+                                    <span *ngIf="auction.started">Yes</span>
+                                    <span *ngIf="!auction.started">No</span>
+                                </div>
+    
+                                <div>
+                                    <b>Ended:</b>
+                                    <span *ngIf="auction.ended">Yes</span>
+                                    <span *ngIf="!auction.ended">No</span>
+                                </div>
+
+                            </div>
+
+                            <button type="button" class="btn btn-primary ms-4" *ngIf="!auction.started &&  auction.seller == w3s.account" (click)="startAuction()" > Start</button>
+
+                            <button type="button" class="btn btn-primary ms-4" *ngIf="auction.started &&  auction.seller == w3s.account && !auction.ended" (click)="endAuction()" > End</button>
+
+
+                        </dd>
+
+                        <dt>Current Bid</dt>
+
+                        <dd>
+                            <div>
+                                <div *ngIf="auction.highestBidder != '0x0000000000000000000000000000000000000000'">
+                                    <b>{{  auction.highestBid | number : '0.0-6'}} Eth </b>
+                                    <small class="text-info">by {{auction.highestBidder}}</small> 
+                                </div>
+
+                                <div *ngIf="auction.highestBidder == '0x0000000000000000000000000000000000000000'">No Bids yet </div>
+
+                            </div>
+                        </dd>
+                    </dl>
+
+                    <div class="card m-4 p-2">
+
+                        <div class="card-heaer">
+                            <h3>Make a  Bid</h3>
+                        </div>
+
+                        <div class="card-body">
+                            <form class="form mt-2" [formGroup]="mainFormGroup" (ngSubmit)="bid()">
+                                <div class="form-group">
+                                    <label >Bid Price</label>
+                                    <input type="number" class="form-control" formControlName="bid">
+                                    <span class="text-danger " *ngIf="f.bid.touched && f.bid.errors?.required">Required</span>
+                                    <span class="text-danger " *ngIf="f.bid.touched && f.bid.errors?.min">Bid price must be at least 0</span>
+                                   
+
+                                </div>
+
+                                <div class="form-group my-3">
+                                    <button type="submit" class="btn btn-primary" [disabled]="mainFormGroup.invalid" >Submit Bid</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
